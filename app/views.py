@@ -4,6 +4,7 @@ from django.shortcuts import render
 from app.models import *
 from django.http import HttpResponse
 from django.db.models.functions import Length
+from django.db.models import Q
 
 
 def display_topic(request):
@@ -18,6 +19,8 @@ def display_topic(request):
 
 def display_webpage(request):
     QSWO=Webpage.objects.all()
+
+
     QSWO=Webpage.objects.filter(topic_name='Football')
     QSWO=Webpage.objects.exclude(topic_name='Football')
     QSWO=Webpage.objects.filter(topic_name='Kabaddi').order_by('name')
@@ -27,22 +30,33 @@ def display_webpage(request):
     QSWO=Webpage.objects.all().order_by(Length('name').desc())
     QSWO=Webpage.objects.all()
     QSWO=Webpage.objects.filter(name='chandu')
+
+
     QSWO=Webpage.objects.filter(pk__gt=4)
     QSWO=Webpage.objects.all()
     QSWO=Webpage.objects.filter(name__startswith='n')
     QSWO=Webpage.objects.filter(url__endswith='com')
     QSWO=Webpage.objects.filter(name__contains='ba')
     QSWO=Webpage.objects.filter(name__in=('shoban','chandu')) 
+
+
     QSWO=Webpage.objects.filter(name__regex='^\w')
     QSWO=Webpage.objects.filter(url__regex='[com]')
     QSWO=Webpage.objects.all()
+
+    QSWO=Webpage.objects.filter(Q(name__contains='a')&Q(url__endswith='in'))
+    QSWO=Webpage.objects.filter(url__regex='com$')
+    QSWO=Webpage.objects.filter(Q(url__regex='in$')&Q(pk__gt='3'))
+
 
     d={'web':QSWO}
     return render(request,'display_webpage.html',d)
 
 def display_acessrecords(request):
     QSARO=Accessrecords.objects.all()
+
     QSARO=Accessrecords.objects.filter(author__contains='a')
+
     QSARO=Accessrecords.objects.filter(date__month='08')
     QSARO=Accessrecords.objects.filter(date__year='1999')
     QSARO=Accessrecords.objects.filter(date__year__gt='1999')
@@ -51,6 +65,9 @@ def display_acessrecords(request):
     QSARO=Accessrecords.objects.filter(date__year__lte='1999')
     QSARO=Accessrecords.objects.filter(date__day='06')
     QSARO=Accessrecords.objects.all()
+
+    QSARO=Accessrecords.objects.filter(Q(date__year__gt='2000')|Q(author__contains='a'))
+    QSARO=Accessrecords.objects.filter(Q(author__regex='l')&Q(date__regex='\d'))
     
     d={'records':QSARO}
     return render(request,'display_acessrecords.html',d)
