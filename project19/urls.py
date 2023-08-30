@@ -24,6 +24,11 @@ urlpatterns = [
     path('display_webpage/',display_webpage,name='display_webpage'),
     path('display_acessrecords/',display_acessrecords,name='display_acessrecords'),
     path('Insert_Topic/',Insert_Topic,name='Insert_Topic'),
-    path('Insert_Webpage/',Insert_Webpage,name='Insert_Webpage'),#
-    path('Insert_AccessRecords/',Insert_AccessRecords,name='Insert_AccessRecords')
+    path('Insert_Webpage/',Insert_Webpage,name='Insert_Webpage'),
+    path('Insert_AccessRecords/',Insert_AccessRecords,name='Insert_AccessRecords'),
+    path('update_topic/',update_topic,name='update_topic'),
+    path('update_webpage/',update_webpage,name='update_webpage'),
+    path('update_acessrecords/',update_acessrecords,name='update_acessrecords'),
+    path('delete_webpage/',delete_webpage,name='delete_webpage')
+
 ]

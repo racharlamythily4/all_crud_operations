@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.db.models.functions import Length
 from django.db.models import Q
 
-
+'''Display Topics'''
 def display_topic(request):
     QSTO=Topic.objects.all()
     QSTO=Topic.objects.filter(topic_name='Cricket')
@@ -17,6 +17,7 @@ def display_topic(request):
     d={'topics':QSTO}
     return render(request,'display_topic.html',d)
 
+'''Display Webpages'''
 def display_webpage(request):
     QSWO=Webpage.objects.all()
 
@@ -47,11 +48,12 @@ def display_webpage(request):
     QSWO=Webpage.objects.filter(Q(name__contains='a')&Q(url__endswith='in'))
     QSWO=Webpage.objects.filter(url__regex='com$')
     QSWO=Webpage.objects.filter(Q(url__regex='in$')&Q(pk__gt='3'))
+    QSWO=Webpage.objects.all()
 
-
+    
     d={'web':QSWO}
     return render(request,'display_webpage.html',d)
-
+'''Display AccessRecords'''
 def display_acessrecords(request):
     QSARO=Accessrecords.objects.all()
 
@@ -68,11 +70,13 @@ def display_acessrecords(request):
 
     QSARO=Accessrecords.objects.filter(Q(date__year__gt='2000')|Q(author__contains='a'))
     QSARO=Accessrecords.objects.filter(Q(author__regex='l')&Q(date__regex='\d'))
-    
+    QSARO=Accessrecords.objects.all()
+
+
     d={'records':QSARO}
     return render(request,'display_acessrecords.html',d)
 
-
+'''Insert Topics'''
 def Insert_Topic(request):
     tn=input('Enter topic_name : ')
     to=Topic.objects.get_or_create(topic_name=tn)[0]
@@ -82,7 +86,7 @@ def Insert_Topic(request):
     d={'topics':QSTO}
     return render(request,'display_topic.html',d)
 
-
+'''Insert Webpages'''
 def Insert_Webpage(request):
     tn=input('Enter topic_name : ')
     to=Topic.objects.get_or_create(topic_name=tn)[0]
@@ -95,7 +99,7 @@ def Insert_Webpage(request):
     QSWO=Webpage.objects.all()
     d={'web':QSWO}
     return render(request,'display_webpage.html',d)
-
+'''Insert AccesRecords'''
 def Insert_AccessRecords(request):
     tn=input('Enter topic_name : ')
     to=Topic.objects.get_or_create(topic_name=tn)[0]
@@ -113,3 +117,63 @@ def Insert_AccessRecords(request):
     QSARO=Accessrecords.objects.all()
     d={'records':QSARO}
     return render(request,'display_acessrecords.html',d)
+
+'''Upadte Topics'''
+def update_topic(request):
+    QSTO=Topic.objects.all()
+    d={'topics':QSTO}
+    return render(request,'display_topic.html',d)
+
+'''Update Webpages'''
+
+def update_webpage(request):
+    
+    '''UPDATE METHOD'''
+    '''One row can be satisfies'''
+    #Webpage.objects.filter(name='Mythily Racharla').update(name='Racharla Mythily')
+    #Webpage.objects.filter(topic_name='Virat').update(topic_name='Cricket')
+    #Webpage.objects.filter(name='Racharla Mythily').update(name='Hardik')
+    '''Multiple rows can be satisfied'''
+    #Webpage.objects.filter(topic_name='Cricket').update(url='https://cricket.in')
+    '''No operations will be performed'''
+    #Webpage.objects.filter(name='Racharla Mythily').update(name='Hardik')
+    '''Foreign key constraint failed(because we need to provide values which are present in parent table)'''
+    #Webpage.objects.filter(topic_name='Kabaddi').update(topic_name='Hockey')
+
+    '''UPDATE_OR_CREATE METHOD'''
+    '''One row satisfies'''
+
+    #OB=Topic.objects.get(topic_name='Football')
+    #Webpage.objects.update_or_create(name='Sindhu',defaults={'topic_name':OB,'url':'http://Football.com'})
+
+    '''Multiple rows can't be satisfies because(we can't modify multiple rows by update_or_create method)'''
+
+    #OB=Topic.objects.get(topic_name='Cricket')
+    #Webpage.objects.update_or_create(topic_name='Cricket',defaults={'topic_name':OB,'topic_name':'CRICKET'})
+
+    '''No Rows Satisfies(It will create a new row)'''
+    #OB=Topic.objects.get(topic_name='Cricket')
+    #Webpage.objects.update_or_create(name='virat',defaults={'topic_name':OB,'name':'kohli'})
+
+    #OB=Topic.objects.get(topic_name='Football')
+    #Webpage.objects.update_or_create(name='ani',defaults={'topic_name':OB,'name':'Anitha'})
+
+        
+    QSWO=Webpage.objects.all()
+    d={'web':QSWO}
+    return render(request,'display_webpage.html',d)
+
+'''Update Accessrecords'''
+def update_acessrecords(request):
+
+    QSARO=Accessrecords.objects.all()
+    d={'records':QSARO}
+    return render(request,'display_acessrecords.html',d)
+
+'''Delete Webpage'''
+def delete_webpage(request):
+    Webpage.objects.filter(name='Anitha').delete()
+    Webpage.objects.filter(name='kohli').delete()
+    QSWO=Webpage.objects.all()
+    d={'web':QSWO}
+    return render(request,'display_webpage.html',d)
